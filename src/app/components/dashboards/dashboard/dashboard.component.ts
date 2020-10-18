@@ -118,8 +118,8 @@ export class DashboardComponent implements OnInit {
     this.changedOptions();
   }
 
-  addWidget(widget: any) {
-    this.dashboard.widgets.push({ x: 0, y: 0, rows: widget.rows, cols: widget.cols, type: widget.type });
+  addWidget(template: any) {
+    this.dashboard.widgets.push({ x: 0, y: 0, rows: template.rows, cols: template.cols, template });
   }
 
   deleteDashboard(dashboard: any) {

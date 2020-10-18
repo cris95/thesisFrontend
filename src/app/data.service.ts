@@ -51,6 +51,11 @@ export class DataService {
   }
 
 
+  getTemperature(id: number): Observable<number>{
+    const params = new HttpParams().set('id', id + '');
+    return this.http.get<number>(API_URL + 'getTemperature', {params});
+  }
+
 
 
 }

@@ -10,7 +10,7 @@
 </div>
 <gridster [options]="options">
   <gridster-item [item]="widget" *ngFor="let widget of dashboard.widgets">
-    <div></div>
+    <app-alert-widget *ngIf="widget.template.type === 'alert'" [widget]="widget"></app-alert-widget>
   </gridster-item>
 </gridster>
 <div class="dashboard-button">
