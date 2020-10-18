@@ -1,0 +1,13 @@
+.dashboard-button {
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 10%;
+}
+
+.name-input {
+  margin: auto;
+  width: 50%;
+  margin-top: 20px;
+  text-align: center;
+}

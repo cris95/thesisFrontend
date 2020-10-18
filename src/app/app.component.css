@@ -1,0 +1,7 @@
+.title{
+    margin: auto;
+}
+
+button:focus {
+    outline: none !important;
+}
