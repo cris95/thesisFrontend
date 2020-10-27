@@ -11,6 +11,8 @@
 <gridster [options]="options">
   <gridster-item [item]="widget" *ngFor="let widget of dashboard.widgets">
     <app-alert-widget *ngIf="widget.template.type === 'alert'" [widget]="widget"></app-alert-widget>
+    <app-button-widget *ngIf="widget.template.type === 'button'" [widget]="widget"></app-button-widget>
+    <app-chart-widget *ngIf="widget.template.type === 'chart'" [widget]="widget"></app-chart-widget>
   </gridster-item>
 </gridster>
 <div class="dashboard-button">

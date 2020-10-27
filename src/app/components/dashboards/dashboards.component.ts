@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from 'src/app/data.service';
-import { GridsterConfig, GridsterItem, GridType, CompactType, DisplayGrid } from 'angular-gridster2';
 import { AppComponent } from 'src/app/app.component';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboards',
@@ -13,21 +12,22 @@ import { Router } from '@angular/router';
 export class DashboardsComponent implements OnInit {
   displayedDashboards = ['Name'];
   dashboardsDataSource = new MatTableDataSource<any>();
+  subscription: Subscription;
 
   constructor(public appComponent: AppComponent) {
     if (this.appComponent.user === undefined) {
       this.appComponent.router.navigate(['/login']);
     }
-  }
-
-  ngOnInit() {
     this.appComponent.title = this.appComponent.user.username + ' dashboards';
     this.appComponent.widgetsIconVisible = false;
     this.appComponent.editIconVisible = false;
     this.appComponent.moreIconVisible = true;
+  }
+
+  ngOnInit() {
     this.getUserDashboards(this.appComponent.user.id);
 
-    this.appComponent.buttonClicked().subscribe((value) => {
+    this.subscription = this.appComponent.buttonClicked().subscribe((value) => {
       if (value === 'createDashboard') {
         this.createDashboard();
       }
@@ -48,6 +48,10 @@ export class DashboardsComponent implements OnInit {
     this.appComponent.dataService.createDashboard(this.appComponent.user.id).subscribe(data => {
       this.dashboardsDataSource = new MatTableDataSource(data);
     });
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
 }

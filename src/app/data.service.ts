@@ -50,12 +50,30 @@ export class DataService {
     return this.http.get<any[]>(API_URL + 'getAllWidgets');
   }
 
-
-  getTemperature(id: number): Observable<number>{
+  getTemperature(id: number): Observable<any> {
     const params = new HttpParams().set('id', id + '');
-    return this.http.get<number>(API_URL + 'getTemperature', {params});
+    return this.http.get<any>(API_URL + 'getTemperature', { params });
   }
 
+  switch(id: number, value: boolean): Observable<any> {
+    const params = new HttpParams().set('id', id + '').set('value', value + '');
+    return this.http.get<any>(API_URL + 'switchValue', { params });
+  }
+
+  getButtonWidget(templateId: number){
+    const params = new HttpParams().set('templateId', templateId + '');
+    return this.http.get<any>(API_URL + 'getButtonWidget', {params});
+  }
+
+  getAlertWidget(templateId: number){
+    const params = new HttpParams().set('templateId', templateId + '');
+    return this.http.get<any>(API_URL + 'getAlertWidget', {params});
+  }
+
+  getData(id: number){
+    const params = new HttpParams().set('id', id + '');
+    return this.http.get<any>(API_URL + 'getData', {params});
+  }
 
 
 }

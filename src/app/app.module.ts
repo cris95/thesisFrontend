@@ -38,12 +38,19 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { AlertWidgetComponent } from './components/widgets/alert-widget/alert-widget.component';
+import { ButtonWidgetComponent } from './components/widgets/button-widget/button-widget.component';
+import { ChartWidgetComponent } from './components/widgets/chart-widget/chart-widget.component';
+import * as PlotlyJS from 'plotly.js/dist/plotly.js';
+import { PlotlyModule } from 'angular-plotly.js';
+PlotlyModule.plotlyjs = PlotlyJS;
 
 @NgModule({
   declarations: [
     AppComponent,
     routingComponents,
     AlertWidgetComponent,
+    ButtonWidgetComponent,
+    ChartWidgetComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,6 +60,7 @@ import { AlertWidgetComponent } from './components/widgets/alert-widget/alert-wi
     NgbModule,
     HttpClientModule,
     GridsterModule,
+    PlotlyModule,
 
     MatCheckboxModule,
     MatCheckboxModule,

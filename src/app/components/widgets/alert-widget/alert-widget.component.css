@@ -1,0 +1,17 @@
+.ok{
+    background-color: green;
+}
+.warning {
+    background-color: yellow;
+}
+.danger{
+    background-color: red;
+}
+
+.temperature-container{
+    height: 100%;
+}
+
+.lable{
+    text-align: center;
+}

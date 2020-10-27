@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GridType, CompactType, DisplayGrid, GridsterConfig } from 'angular-gridster2';
-import { DataService } from 'src/app/data.service';
 import { AppComponent } from 'src/app/app.component';
-import { isUndefined } from 'util';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,9 +19,6 @@ export class DashboardComponent implements OnInit {
     if (this.appComponent.user === undefined) {
       this.appComponent.router.navigate(['/login']);
     }
-  }
-
-  ngOnInit(): void {
     this.options = {
       gridType: GridType.ScrollVertical,
       compactType: CompactType.None,
@@ -47,8 +42,8 @@ export class DashboardComponent implements OnInit {
       minItemArea: 1,
       defaultItemCols: 1,
       defaultItemRows: 1,
-      fixedColWidth: 15,
-      fixedRowHeight: 15,
+      fixedColWidth: 50,
+      fixedRowHeight: 50,
       keepFixedHeightInMobile: false,
       keepFixedWidthInMobile: false,
       scrollSensitivity: 10,
@@ -73,26 +68,27 @@ export class DashboardComponent implements OnInit {
       disablePushOnResize: false,
       pushDirections: { north: true, east: true, south: true, west: true },
       pushResizeItems: false,
-      displayGrid: DisplayGrid.Always,
+      displayGrid: DisplayGrid.OnDragAndResize,
       disableWindowResize: false,
       disableWarnings: false,
       scrollToNewItems: false
     };
-
     this.appComponent.readOnly = true;
     this.appComponent.moreIconVisible = false;
     this.appComponent.editIconVisible = true;
-    const id = this.route.snapshot.paramMap.get('id');
+  }
 
+  ngOnInit(): void {
     this.appComponent.buttonClicked().subscribe((value) => {
       if (value === 'editDashboard') {
         this.setEditable(true);
       }
-      else if (value === 'deleteDashboard'){
+      else if (value === 'deleteDashboard') {
         this.deleteDashboard(this.dashboard);
       }
     });
 
+    const id = this.route.snapshot.paramMap.get('id');
     this.appComponent.dataService.getDashboard(id).subscribe(data => {
       this.dashboard = data;
       this.dashboardName = this.dashboard.name;
