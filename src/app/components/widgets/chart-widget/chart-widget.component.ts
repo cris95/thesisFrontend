@@ -1,28 +1,28 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import * as Plotly from 'plotly.js';
 import { AppComponent } from 'src/app/app.component';
+import { Subscription, interval } from 'rxjs';
+import { DashboardComponent } from '../../dashboards/dashboard/dashboard.component';
 
 @Component({
   selector: 'app-chart-widget',
   templateUrl: './chart-widget.component.html',
-  styleUrls: ['./chart-widget.component.css']
+  styleUrls: ['./chart-widget.component.css', '../../dashboards/dashboard/dashboard.component.css']
 })
 export class ChartWidgetComponent implements OnInit {
 
   @Input() widget: any;
+  chartWidget: any;
+  dataIsAvailable = false;
+  subscription: Subscription;
 
   @ViewChild('chart', { static: true }) el: ElementRef;
 
-  constructor(public appComponent: AppComponent) {
+  constructor(public appComponent: AppComponent, public dashboardComponent: DashboardComponent) {
   }
 
   ngOnInit() {
-
-    this.appComponent.dataService.getData(this.widget.template.id).subscribe(data => {
-      console.log('Data ' + data);
-      this.drawChart(data);
-    });
-
+    this.getChartWidget();
   }
 
   drawChart(d: any) {
@@ -33,7 +33,7 @@ export class ChartWidgetComponent implements OnInit {
 
     const valueOfData = { x: [], y: [], type: '' };
 
-    d.values.forEach((el, i) => {
+    d.forEach((el, i) => {
       valueOfData.x.push(i);
       valueOfData.y.push(el);
     });
@@ -42,8 +42,8 @@ export class ChartWidgetComponent implements OnInit {
     data.push(valueOfData);
 
     const layout = {
-      width: 300,
-      height: 300,
+      width: 270,
+      height: 270,
       margin: {
         l: 40,
         b: 90,
@@ -52,7 +52,21 @@ export class ChartWidgetComponent implements OnInit {
       }
     };
 
-    Plotly.plot(chart, data, layout);
+    window.Plotly.newPlot(chart, data, layout);
   }
 
+  getChartWidget() {
+    this.appComponent.dataService.getChartWidget(this.widget.template.id).subscribe(chart => {
+      this.chartWidget = chart;
+      this.dataIsAvailable = true;
+
+      this.dashboardComponent.isDataRetrieved().subscribe(data => {
+        const map = new Map(Object.entries(data));
+        const chartData = map.get(this.chartWidget.template.id.toString());
+        if (chartData !== undefined) {
+          this.drawChart(chartData);
+        }
+      });
+    });
+  }
 }

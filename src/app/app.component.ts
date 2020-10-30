@@ -1,7 +1,9 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from './data.service';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { PushService } from './push.service';
+// import { PushService } from './push.service';
 
 @Component({
   selector: 'app-root',
@@ -17,19 +19,21 @@ export class AppComponent {
   readOnly = true;
   private isButtonClicked: BehaviorSubject<string>;
 
-  constructor(public router: Router, public dataService: DataService) {
+  constructor(public router: Router, public dataService: DataService, public pushService: PushService) {
     this.isButtonClicked = new BehaviorSubject<string>('');
   }
 
   ngOnInit(): void {
-
+    // this.pushService.requestPermission();
+    // this.pushService.receiveMessage();
+    // this.message = this.pushService.currentMessage;
   }
 
-  setButtonClicked(button: string){
+  setButtonClicked(button: string) {
     this.isButtonClicked.next(button);
   }
 
-  buttonClicked(): Observable<any>{
+  buttonClicked(): Observable<any> {
     const o = this.isButtonClicked.asObservable();
     this.setButtonClicked('');
     return o;

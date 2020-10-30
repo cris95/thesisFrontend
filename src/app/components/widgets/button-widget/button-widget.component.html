@@ -1,6 +1,5 @@
-<div>
-    <mat-card class="label">{{buttonWidget.label}}</mat-card>
-    <mat-card-content>
-        <mat-slide-toggle class="switch" [(ngModel)]="isChecked"(change)="switch()"></mat-slide-toggle>
-    </mat-card-content>
+<div class="container">
+  <button *ngIf="dataIsAvailable" mat-flat-button (click)="click()">
+    {{ buttonWidget.label | uppercase }}
+  </button>
 </div>

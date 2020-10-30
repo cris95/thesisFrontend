@@ -11,19 +11,20 @@ export class ButtonWidgetComponent implements OnInit {
   @Input() widget: any;
   buttonWidget: any;
 
-  isChecked = true;
+  dataIsAvailable = false;
 
   constructor(public appComponent: AppComponent) { }
 
   ngOnInit(): void {
     this.appComponent.dataService.getButtonWidget(this.widget.template.id).subscribe(data => {
       this.buttonWidget = data;
+      this.dataIsAvailable = true;
     });
   }
 
-  switch() {
-    this.appComponent.dataService.switch(this.widget.id, this.isChecked).subscribe(data => {
-      this.isChecked = data;
+  click() {
+    this.appComponent.dataService.clickButtonWidget(this.buttonWidget.id).subscribe(data => {
+      alert('success');
     });
   }
 

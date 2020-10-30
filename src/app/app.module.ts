@@ -7,6 +7,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { GridsterModule } from 'angular-gridster2';
+
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireModule } from '@angular/fire';
+import { PushService } from './push.service';
+import { environment } from '../environments/environment';
+import { AsyncPipe } from '../../node_modules/@angular/common';
+
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -39,10 +48,8 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { AlertWidgetComponent } from './components/widgets/alert-widget/alert-widget.component';
 import { ButtonWidgetComponent } from './components/widgets/button-widget/button-widget.component';
+import { SwitchWidgetComponent } from './components/widgets/switch-widget/switch-widget.component';
 import { ChartWidgetComponent } from './components/widgets/chart-widget/chart-widget.component';
-import * as PlotlyJS from 'plotly.js/dist/plotly.js';
-import { PlotlyModule } from 'angular-plotly.js';
-PlotlyModule.plotlyjs = PlotlyJS;
 
 @NgModule({
   declarations: [
@@ -51,6 +58,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     AlertWidgetComponent,
     ButtonWidgetComponent,
     ChartWidgetComponent,
+    SwitchWidgetComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,7 +68,6 @@ PlotlyModule.plotlyjs = PlotlyJS;
     NgbModule,
     HttpClientModule,
     GridsterModule,
-    PlotlyModule,
 
     MatCheckboxModule,
     MatCheckboxModule,
@@ -92,10 +99,14 @@ PlotlyModule.plotlyjs = PlotlyJS;
     MatSnackBarModule,
     MatTableModule,
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
 
+   AngularFireDatabaseModule,
+   AngularFireAuthModule,
+   AngularFireMessagingModule,
+   AngularFireModule.initializeApp(environment.firebase),
   ],
-  providers: [],
+  providers: [PushService, AsyncPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

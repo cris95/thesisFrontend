@@ -1,0 +1,12 @@
+.container {
+  background-color: white;
+  padding: 10px;
+}
+.container > p {
+    margin: -10px -10px 0px -10px;
+    padding: 10px;
+    background-color: #6b9eaf;
+    color: white;
+    font-size: 14px !important;
+    text-align: center;
+  }

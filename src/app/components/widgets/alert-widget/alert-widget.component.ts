@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AppComponent } from 'src/app/app.component';
-import { interval, Observable, Subscription } from 'rxjs';
+import { interval, Observable, Subscription, BehaviorSubject } from 'rxjs';
+import { DashboardComponent } from '../../dashboards/dashboard/dashboard.component';
 
 @Component({
   selector: 'app-alert-widget',
@@ -16,40 +17,43 @@ export class AlertWidgetComponent implements OnInit {
   threshold: string;
   refreshTime: number;
   subscription: Subscription;
+  dataIsAvailable = false;
 
-  constructor(public appComponent: AppComponent) { }
+  constructor(public appComponent: AppComponent, public dashboardComponent: DashboardComponent) { }
 
   ngOnInit(): void {
-    this.appComponent.dataService.getAlertWidget(this.widget.template.id).subscribe(data => {
-      console.log(data);
-      this.alertWidget = data;
-    });
-    this.getTemperature(this.widget.template.id);
-  }
+    this.appComponent.dataService.getAlertWidget(this.widget.template.id).subscribe(alert => {
+      this.alertWidget = alert;
+      this.dashboardComponent.isDataRetrieved().subscribe(data => {
 
-  getTemperature(id: number) {
+        console.log(data);
 
-    if (this.subscription !== undefined) {
-      this.subscription.unsubscribe();
-    }
-
-    this.appComponent.dataService.getTemperature(id).subscribe(data => {
-      this.value = data.value;
-      if (this.value <= data.low) {
-        this.threshold = 'ok';
-      }
-      else if (this.value > data.low && this.value <= data.high) {
-        this.threshold = 'warning';
-      }
-      else if (this.value > data.high) {
-        this.threshold = 'danger';
-      }
-      this.subscription = interval(data.refreshTime).subscribe(() => {
-        this.getTemperature(this.widget.template.id);
+        const map = new Map(Object.entries(data));
+        const alertData = map.get(this.alertWidget.template.id.toString());
+        if (alertData !== undefined) {
+          this.value = alertData;
+          this.dataIsAvailable = true;
+          if (this.value <= this.alertWidget.low) {
+            this.threshold = 'ok';
+          }
+          else if (this.value > this.alertWidget.low && this.value <= this.alertWidget.high) {
+            this.threshold = 'warning';
+          }
+          else if (this.value > this.alertWidget.high) {
+            this.threshold = 'critical';
+          }
+        }
       });
+    });
 
+    this.appComponent.pushService.receiveMessage();
+
+    this.appComponent.pushService.messageReceived().subscribe(payload => {
+      if (payload !== null) {
+        this.value = payload.data.value;
+        this.threshold = 'critical';
+      }
     });
   }
-
 
 }

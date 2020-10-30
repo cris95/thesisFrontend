@@ -2,7 +2,8 @@ h1 {
   text-align: center;
 }
 
-.row-cell:hover{
+.row-cell:hover {
   background-color: lightgray;
   cursor: pointer;
 }
+

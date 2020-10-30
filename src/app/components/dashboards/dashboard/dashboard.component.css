@@ -1,13 +1,31 @@
-.dashboard-button {
-  margin: auto;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  width: 10%;
-}
-
 .name-input {
   margin: auto;
   width: 50%;
   margin-top: 20px;
   text-align: center;
 }
+
+.add-button {
+  margin-left: 20px;
+}
+
+.save-button {
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 10%;
+}
+
+.grid-container {
+  height: 100%;
+  margin: 10px 10px 10px 10px;
+}
+
+gridster{
+  background-color: #003f5c;
+}
+
+.row{
+  background-color: #003f5c;
+}
+

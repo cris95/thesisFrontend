@@ -1,4 +1,7 @@
-<div [class]="threshold" class="temperature-container">
-    <mat-card class="label">{{alertWidget.label}}</mat-card>
-    <h2>{{value}}</h2>
+<div *ngIf="dataIsAvailable" class="container">
+  <p>{{ alertWidget.label | uppercase }}</p>
+  <div [class]="threshold" class="alert">
+    <p class="level">{{ threshold | uppercase }}</p>
+    <p class="value">{{ value }}</p>
+  </div>
 </div>

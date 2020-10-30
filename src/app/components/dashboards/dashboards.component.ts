@@ -27,7 +27,7 @@ export class DashboardsComponent implements OnInit {
   ngOnInit() {
     this.getUserDashboards(this.appComponent.user.id);
 
-    this.subscription = this.appComponent.buttonClicked().subscribe((value) => {
+    this.subscription = this.appComponent.buttonClicked().subscribe(value => {
       if (value === 'createDashboard') {
         this.createDashboard();
       }

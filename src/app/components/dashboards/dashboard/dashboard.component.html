@@ -3,22 +3,33 @@
     <mat-form-field>
       <input matInput placeholder="Name" [(value)]="dashboardName" [(ngModel)]="dashboardName" name="dashboardName">
     </mat-form-field>
+    <button *ngIf="!appComponent.readOnly" mat-flat-button color="primary" 
+      [matMenuTriggerFor]="widgetsMenu" class="add-button">Add widgets
+    </button>
   </form>
 </div>
-<div class="dashboard-button">
-  <button *ngIf="!appComponent.readOnly" mat-flat-button color="primary" [matMenuTriggerFor]="widgetsMenu">Add widgets</button>
+<div class="grid-container">
+  <gridster *ngIf="dataIsAvailable" [options]="options">
+    <gridster-item [item]="widget" *ngFor="let widget of dashboard.widgets">
+      <div *ngIf="!appComponent.readOnly" class="row">
+        <div class="col-4 offset-4">
+          <button mat-mini-fab color="warn" (mousedown)="deleteWidget($event, widget)"
+            (touchstart)="deleteWidget($event, widget)" class="delete-button">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+      <app-alert-widget *ngIf="widget.template.type === 'alert'" [widget]="widget"></app-alert-widget>
+      <app-button-widget *ngIf="widget.template.type === 'button'" [widget]="widget"></app-button-widget>
+      <app-chart-widget *ngIf="widget.template.type === 'chart'" [widget]="widget"></app-chart-widget>
+      <app-switch-widget *ngIf="widget.template.type === 'switch'" [widget]="widget"></app-switch-widget>
+    </gridster-item>
+  </gridster>
 </div>
-<gridster [options]="options">
-  <gridster-item [item]="widget" *ngFor="let widget of dashboard.widgets">
-    <app-alert-widget *ngIf="widget.template.type === 'alert'" [widget]="widget"></app-alert-widget>
-    <app-button-widget *ngIf="widget.template.type === 'button'" [widget]="widget"></app-button-widget>
-    <app-chart-widget *ngIf="widget.template.type === 'chart'" [widget]="widget"></app-chart-widget>
-  </gridster-item>
-</gridster>
-<div class="dashboard-button">
-  <button *ngIf="!appComponent.readOnly" mat-flat-button color="primary" (click)="saveDashboard(dashboard)">save</button>
+<div class="save-button">
+  <button *ngIf="!appComponent.readOnly" 
+    mat-flat-button color="primary"(click)="saveDashboard(dashboard)" >save</button>
 </div>
-
 <mat-menu #widgetsMenu="matMenu">
-  <button mat-menu-item *ngFor="let w of widgets" (click)="addWidget(w)">{{w.description}}</button>
+  <button mat-menu-item *ngFor="let w of widgetTemplates" (click)="addWidget(w)">{{w.description}}</button>
 </mat-menu>

@@ -1,3 +1,4 @@
-<div #chart>
-    
+<div class="container">
+  <p *ngIf="dataIsAvailable">{{ chartWidget.label | uppercase}}</p>
+  <div #chart></div>
 </div>

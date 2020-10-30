@@ -1,17 +1,43 @@
-.ok{
-    background-color: green;
+.ok {
+  background-color: #388e3c;
 }
 .warning {
-    background-color: yellow;
+  background-color: #fbc02d;
 }
-.danger{
-    background-color: red;
-}
-
-.temperature-container{
-    height: 100%;
+.critical {
+  background-color: #d32f2f;
 }
 
-.lable{
-    text-align: center;
+.container {
+  height: 100%;
+}
+
+.alert {
+  height: 80%;
+  border-radius: 10px;
+  margin-top: 6px;
+}
+
+.level {
+  color: white;
+  font-size: 20px;
+}
+
+.value {
+  margin-top: 50px;
+  color: white;
+  font-size: 36px;
+}
+
+.container {
+  background-color: #003f5c !important;
+}
+
+.container > :first-child {
+  background-color: #003f5c !important;
+}
+
+.container > p:first-child {
+  color: white;
+  text-align: center;
 }
