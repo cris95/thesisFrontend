@@ -21,11 +21,7 @@
   margin: 10px 10px 10px 10px;
 }
 
-gridster{
-  background-color: #003f5c;
-}
-
-.row{
+gridster, gridster-item {
   background-color: #003f5c;
 }
 

@@ -1,13 +1,14 @@
 button {
   background-color: #d32f2f;
   color: white;
-  height: 100%;
   font-size: 12px;
-  margin-left: -10px;
+  height: 100%;
+  padding: 1px;
 }
 
-.container{
-    background-color: #003f5c;
-    height: 100%;
+.container {
+  height: 90%;
+  padding: 1px;
+  margin-left: 1px;
 }
 

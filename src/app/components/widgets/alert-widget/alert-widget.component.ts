@@ -26,8 +26,6 @@ export class AlertWidgetComponent implements OnInit {
       this.alertWidget = alert;
       this.dashboardComponent.isDataRetrieved().subscribe(data => {
 
-        console.log(data);
-
         const map = new Map(Object.entries(data));
         const alertData = map.get(this.alertWidget.template.id.toString());
         if (alertData !== undefined) {

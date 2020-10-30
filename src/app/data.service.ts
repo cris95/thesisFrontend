@@ -52,27 +52,22 @@ export class DataService {
 
   getAlerts(alertsId: number[]): Observable<any[]> {
     const params = new HttpParams().set('ids', JSON.stringify(alertsId));
-    return this.http.get<any[]>(API_URL + 'getAlerts', {params});
+    return this.http.get<any[]>(API_URL + 'getAlerts', { params });
   }
 
   getAlertWidgets(templatesId: number[]): Observable<any[]> {
     const params = new HttpParams().set('ids', templatesId.toString());
-    return this.http.get<any[]>(API_URL + 'getAlertWidgets', {params});
+    return this.http.get<any[]>(API_URL + 'getAlertWidgets', { params });
   }
 
   getChartWidgets(templatesId: number[]): Observable<any[]> {
     const params = new HttpParams().set('ids', templatesId.toString());
-    return this.http.get<any[]>(API_URL + 'getChartWidgets', {params});
+    return this.http.get<any[]>(API_URL + 'getChartWidgets', { params });
   }
 
-  getChartsData(chartsId: number[]): Observable<any[]> {
-    const params = new HttpParams().set('ids', chartsId.toString());
-    return this.http.get<any[]>(API_URL + 'getChartsData', {params});
-  }
-
-  getAlertsData(alertsId: number[]): Observable<any[]> {
-    const params = new HttpParams().set('ids', alertsId.toString());
-    return this.http.get<any[]>(API_URL + 'getAlertsData', {params});
+  getData(templatesId: number[]): Observable<any[]> {
+    const params = new HttpParams().set('ids', templatesId.toString());
+    return this.http.get<any[]>(API_URL + 'getData', { params });
   }
 
   getTemperature(id: number): Observable<any> {

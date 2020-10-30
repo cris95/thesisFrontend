@@ -1,5 +1,5 @@
-<div class="container">
-  <button *ngIf="dataIsAvailable" mat-flat-button (click)="click()">
+<div class="container row">
+  <button *ngIf="dataIsAvailable" mat-flat-button (click)="click()" class="col-11 mx-auto">
     {{ buttonWidget.label | uppercase }}
   </button>
 </div>

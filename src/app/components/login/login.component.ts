@@ -11,16 +11,20 @@ import { AppComponent } from 'src/app/app.component';
 
 export class LoginComponent implements OnInit {
 
-  constructor(private appComponent: AppComponent, private dataService: DataService, private router: Router) { }
+  constructor(private appComponent: AppComponent) {
+    if (this.appComponent.user !== undefined) {
+      this.appComponent.router.navigate(['/dashboards']);
+    }
+  }
 
   ngOnInit(): void {
   }
 
-  login(user){
-    this.dataService.login(user.username, user.password).subscribe(data => {
+  login(user) {
+    this.appComponent.dataService.login(user.username, user.password).subscribe(data => {
       if (data != null) {
         this.appComponent.user = data;
-        this.router.navigate(['/dashboards']);
+        this.appComponent.router.navigate(['/dashboards']);
       }
     });
   }

@@ -38,7 +38,7 @@ export class ChartWidgetComponent implements OnInit {
       valueOfData.y.push(el);
     });
 
-    valueOfData.type = d.type;
+    valueOfData.type = this.chartWidget.type;
     data.push(valueOfData);
 
     const layout = {

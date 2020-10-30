@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { GridType, CompactType, DisplayGrid, GridsterConfig } from 'angular-gridster2';
 import { AppComponent } from 'src/app/app.component';
 import { Subscription, interval, BehaviorSubject, Observable } from 'rxjs';
+import { LoginComponent } from '../../login/login.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,8 +19,7 @@ export class DashboardComponent implements OnInit {
 
   alertWidgets: any[];
   chartWidgets: any[];
-  alertsElapsed: Map<any, number>;
-  chartsElapsed: Map<any, number>;
+  elapsed: Map<any, number>;
   chartsSubscription: Subscription;
   alertsSubscription: Subscription;
   retrievedData: BehaviorSubject<any>;
@@ -30,7 +30,13 @@ export class DashboardComponent implements OnInit {
 
   constructor(public appComponent: AppComponent, private route: ActivatedRoute) {
     if (this.appComponent.user === undefined) {
-      this.appComponent.router.navigate(['/login']);
+
+      this.appComponent.dataService.login('admin', 'admin').subscribe(data => {
+        this.appComponent.user = data;
+        this.appComponent.router.navigate(['/dashboards']);
+      });
+
+      // this.appComponent.router.navigate(['/login']);
     }
     this.options = {
       gridType: GridType.ScrollVertical,
@@ -104,6 +110,13 @@ export class DashboardComponent implements OnInit {
       }
     });
 
+    this.getDashboard();
+
+    this.getAllWidgetTemplates();
+
+  }
+
+  getDashboard() {
     const id = this.route.snapshot.paramMap.get('id');
     this.appComponent.dataService.getDashboard(id).subscribe(data => {
       this.dashboard = data;
@@ -123,26 +136,27 @@ export class DashboardComponent implements OnInit {
         }
       });
 
-      this.appComponent.dataService.getChartWidgets(chartsId).subscribe(charts => {
-        this.chartsElapsed = new Map();
-        charts.forEach(c => {
-          this.chartsElapsed.set(c, c.refreshTime);
-        });
-      });
+      this.elapsed = new Map();
 
-      this.appComponent.dataService.getAlertWidgets(alertsId).subscribe(alerts => {
-        this.alertsElapsed = new Map();
-        alerts.forEach(a => {
-          this.alertsElapsed.set(a, a.refreshTime);
+      this.appComponent.dataService.getChartWidgets(chartsId).subscribe(charts => {
+        charts.forEach(c => {
+          this.elapsed.set(c, c.refreshTime);
         });
-        this.getData();
+        this.appComponent.dataService.getAlertWidgets(alertsId).subscribe(alerts => {
+          alerts.forEach(a => {
+            this.elapsed.set(a, a.refreshTime);
+          });
+          console.log(this.elapsed);
+          this.getData();
+        });
       });
     });
+  }
 
+  getAllWidgetTemplates() {
     this.appComponent.dataService.getAllWidgetTemplates().subscribe(data => {
       this.widgetTemplates = data;
     });
-
   }
 
   changedOptions(): void {
@@ -179,11 +193,14 @@ export class DashboardComponent implements OnInit {
     this.dashboard.name = this.dashboardName;
     this.appComponent.dataService.saveDashboard(dashboard).subscribe(data => {
       this.setEditable(false);
-      this.appComponent.dataService.getDashboard(dashboard.id).subscribe(d => {
-        this.dashboard = d;
-        this.dashboardName = this.dashboard.name;
-        this.appComponent.title = this.dashboard.name;
+      this.dashboard = data;
+      this.dashboardName = this.dashboard.name;
+      this.appComponent.title = this.dashboard.name;
+
+      this.elapsed.forEach((time, w) => {
+        this.elapsed.set(w, w.refreshTime);
       });
+
     });
   }
 
@@ -192,34 +209,21 @@ export class DashboardComponent implements OnInit {
       this.chartsSubscription.unsubscribe();
     }
 
-    const chartsId = [];
-    this.chartsElapsed.forEach((time, chart) => {
-      if (time === chart.refreshTime) {
-        chartsId.push(chart.id);
-        this.chartsElapsed.set(chart, 0);
+    const templatesId = [];
+
+    this.elapsed.forEach((time, w) => {
+      if (time === w.refreshTime) {
+        templatesId.push(w.template.id);
+        this.elapsed.set(w, 0);
       } else {
-        this.chartsElapsed.set(chart, time + 1000);
+        this.elapsed.set(w, time + 1000);
       }
     });
 
-    const alertsId = [];
-    this.alertsElapsed.forEach((time, alert) => {
-      if (time === alert.refreshTime) {
-        alertsId.push(alert.id);
-        this.alertsElapsed.set(alert, 0);
-      } else {
-        this.alertsElapsed.set(alert, time + 1000);
-      }
-    });
+    console.log(this.elapsed);
 
-    if (chartsId.length > 0) {
-      this.appComponent.dataService.getChartsData(chartsId).subscribe(data => {
-        this.retrievedData.next(data);
-      });
-    }
-
-    if (alertsId.length > 0) {
-      this.appComponent.dataService.getAlertsData(alertsId).subscribe(data => {
+    if (templatesId.length > 0) {
+      this.appComponent.dataService.getData(templatesId).subscribe(data => {
         this.retrievedData.next(data);
       });
     }
