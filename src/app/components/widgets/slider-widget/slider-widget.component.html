@@ -1,0 +1,8 @@
+<div *ngIf="dataIsAvailable" class="container">
+  <p>{{ sliderWidget.label | uppercase}}</p>
+  <div class="row">
+    <mat-slider class="slider mx-auto" 
+    [min]="sliderWidget.min" [max]="sliderWidget.max" [(ngModel)]="sliderWidget.value"
+    (change)="change($event)"></mat-slider>
+  </div>  
+</div>

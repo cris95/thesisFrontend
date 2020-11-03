@@ -75,6 +75,31 @@ export class DataService {
     return this.http.get<any>(API_URL + 'getTemperature', { params });
   }
 
+  getAlertWidget(templateId: number) {
+    const params = new HttpParams().set('templateId', templateId + '');
+    return this.http.get<any>(API_URL + 'getAlertWidget', { params });
+  }
+
+  getButtonWidget(templateId: number) {
+    const params = new HttpParams().set('templateId', templateId + '');
+    return this.http.get<any>(API_URL + 'getButtonWidget', { params });
+  }
+
+  getChartWidget(templateId: number) {
+    const params = new HttpParams().set('templateId', templateId + '');
+    return this.http.get<any>(API_URL + 'getChartWidget', { params });
+  }
+
+  getSliderWidget(templateId: number){
+    const params = new HttpParams().set('templateId', templateId + '');
+    return this.http.get<any>(API_URL + 'getSliderWidget', { params });
+  }
+
+  getSwitchWidget(templateId: number) {
+    const params = new HttpParams().set('templateId', templateId + '');
+    return this.http.get<any>(API_URL + 'getSwitchWidget', { params });
+  }
+
   switch(id: number, value: boolean): Observable<any> {
     const params = new HttpParams().set('id', id + '').set('value', value + '');
     return this.http.get<any>(API_URL + 'switchValue', { params });
@@ -85,25 +110,8 @@ export class DataService {
     return this.http.get<any>(API_URL + 'clickButtonWidget', { params });
   }
 
-  getButtonWidget(templateId: number) {
-    const params = new HttpParams().set('templateId', templateId + '');
-    return this.http.get<any>(API_URL + 'getButtonWidget', { params });
+  changeSliderValue(id: number, value: number): Observable<any> {
+    const params = new HttpParams().set('id', id + '').set('value', value + '');
+    return this.http.get<any>(API_URL + 'changeSliderValue', { params });
   }
-
-  getSwitchWidget(templateId: number) {
-    const params = new HttpParams().set('templateId', templateId + '');
-    return this.http.get<any>(API_URL + 'getSwitchWidget', { params });
-  }
-
-  getAlertWidget(templateId: number) {
-    const params = new HttpParams().set('templateId', templateId + '');
-    return this.http.get<any>(API_URL + 'getAlertWidget', { params });
-  }
-
-  getChartWidget(templateId: number) {
-    const params = new HttpParams().set('templateId', templateId + '');
-    return this.http.get<any>(API_URL + 'getChartWidget', { params });
-  }
-
-
 }

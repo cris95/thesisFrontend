@@ -50,6 +50,7 @@ import { AlertWidgetComponent } from './components/widgets/alert-widget/alert-wi
 import { ButtonWidgetComponent } from './components/widgets/button-widget/button-widget.component';
 import { SwitchWidgetComponent } from './components/widgets/switch-widget/switch-widget.component';
 import { ChartWidgetComponent } from './components/widgets/chart-widget/chart-widget.component';
+import { SliderWidgetComponent } from './components/widgets/slider-widget/slider-widget.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { ChartWidgetComponent } from './components/widgets/chart-widget/chart-wi
     ButtonWidgetComponent,
     ChartWidgetComponent,
     SwitchWidgetComponent,
+    SliderWidgetComponent,
   ],
   imports: [
     BrowserModule,

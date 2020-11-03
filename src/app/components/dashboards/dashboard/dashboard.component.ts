@@ -20,8 +20,7 @@ export class DashboardComponent implements OnInit {
   alertWidgets: any[];
   chartWidgets: any[];
   elapsed: Map<any, number>;
-  chartsSubscription: Subscription;
-  alertsSubscription: Subscription;
+  dataSubscription: Subscription;
   retrievedData: BehaviorSubject<any>;
 
   subscription: Subscription;
@@ -193,20 +192,20 @@ export class DashboardComponent implements OnInit {
     this.dashboard.name = this.dashboardName;
     this.appComponent.dataService.saveDashboard(dashboard).subscribe(data => {
       this.setEditable(false);
-      this.dashboard = data;
-      this.dashboardName = this.dashboard.name;
-      this.appComponent.title = this.dashboard.name;
+      this.ngOnInit();
+      // this.dashboard = data;
+      // this.dashboardName = this.dashboard.name;
+      // this.appComponent.title = this.dashboard.name;
 
-      this.elapsed.forEach((time, w) => {
-        this.elapsed.set(w, w.refreshTime);
-      });
-
+      // this.elapsed.forEach((time, w) => {
+      //   this.elapsed.set(w, w.refreshTime);
+      // });
     });
   }
 
   getData() {
-    if (this.chartsSubscription !== undefined) {
-      this.chartsSubscription.unsubscribe();
+    if (this.dataSubscription !== undefined) {
+      this.dataSubscription.unsubscribe();
     }
 
     const templatesId = [];
@@ -220,15 +219,13 @@ export class DashboardComponent implements OnInit {
       }
     });
 
-    console.log(this.elapsed);
-
     if (templatesId.length > 0) {
       this.appComponent.dataService.getData(templatesId).subscribe(data => {
         this.retrievedData.next(data);
       });
     }
 
-    this.chartsSubscription = interval(1000).subscribe(() => {
+    this.dataSubscription = interval(1000).subscribe(() => {
       this.getData();
     });
   }
@@ -239,6 +236,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.dataSubscription.unsubscribe();
   }
 
 }
