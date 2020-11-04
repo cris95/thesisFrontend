@@ -50,6 +50,10 @@ export class DataService {
     return this.http.get<any[]>(API_URL + 'getAllWidgetTemplates');
   }
 
+  getAllEditWidgetMetadata(): Observable<any[]> {
+    return this.http.get<any[]>(API_URL + 'getAllEditWidgetMetadata');
+  }
+
   getAlerts(alertsId: number[]): Observable<any[]> {
     const params = new HttpParams().set('ids', JSON.stringify(alertsId));
     return this.http.get<any[]>(API_URL + 'getAlerts', { params });
@@ -65,9 +69,9 @@ export class DataService {
     return this.http.get<any[]>(API_URL + 'getChartWidgets', { params });
   }
 
-  getData(templatesId: number[]): Observable<any[]> {
+  getWidgetsData(templatesId: number[]): Observable<any[]> {
     const params = new HttpParams().set('ids', templatesId.toString());
-    return this.http.get<any[]>(API_URL + 'getData', { params });
+    return this.http.get<any[]>(API_URL + 'getWidgetsData', { params });
   }
 
   getTemperature(id: number): Observable<any> {

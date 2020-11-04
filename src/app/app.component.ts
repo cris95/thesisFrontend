@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { DataService } from './data.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { PushService } from './push.service';
+import { WebSocketService } from './web-socket.service';
 // import { PushService } from './push.service';
 
 @Component({
@@ -19,7 +20,8 @@ export class AppComponent {
   readOnly = true;
   private isButtonClicked: BehaviorSubject<string>;
 
-  constructor(public router: Router, public dataService: DataService, public pushService: PushService) {
+  constructor(public router: Router, public dataService: DataService,
+              public pushService: PushService, public webSocketService: WebSocketService) {
     this.isButtonClicked = new BehaviorSubject<string>('');
   }
 
@@ -37,6 +39,14 @@ export class AppComponent {
     const o = this.isButtonClicked.asObservable();
     this.setButtonClicked('');
     return o;
+  }
+
+  navigateDashboards(){
+    this.router.navigate(['/dashboards']);
+  }
+
+  navigateWidgets(){
+    this.router.navigate(['/widgets']);
   }
 
 }

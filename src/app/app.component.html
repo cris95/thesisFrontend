@@ -1,5 +1,8 @@
-<ng-container>
+<ng-container *ngIf="this.router.url !== '/login'">
   <mat-toolbar color="primary">
+    <button mat-icon-button [matMenuTriggerFor]="navMenu">
+      <mat-icon>menu</mat-icon>
+    </button>
     <div class="title">
       <span>{{title}}</span>
     </div>
@@ -10,6 +13,10 @@
       <mat-icon>more_vert</mat-icon>
     </button>
 
+    <mat-menu #navMenu="matMenu">
+      <button mat-menu-item (click)="navigateDashboards()">Dashboards</button>
+      <button mat-menu-item (click)="navigateWidgets()">Widgets</button>
+    </mat-menu> 
     <mat-menu #editMenu="matMenu">
       <button mat-menu-item (click)="setButtonClicked('editDashboard')">Edit</button>
       <button mat-menu-item (click)="setButtonClicked('deleteDashboard')">Delete</button>

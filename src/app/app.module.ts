@@ -51,6 +51,7 @@ import { ButtonWidgetComponent } from './components/widgets/button-widget/button
 import { SwitchWidgetComponent } from './components/widgets/switch-widget/switch-widget.component';
 import { ChartWidgetComponent } from './components/widgets/chart-widget/chart-widget.component';
 import { SliderWidgetComponent } from './components/widgets/slider-widget/slider-widget.component';
+import { EditWidgetsComponent } from './components/edit-widgets/edit-widgets.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { SliderWidgetComponent } from './components/widgets/slider-widget/slider
     ChartWidgetComponent,
     SwitchWidgetComponent,
     SliderWidgetComponent,
+    EditWidgetsComponent,
   ],
   imports: [
     BrowserModule,
@@ -103,10 +105,10 @@ import { SliderWidgetComponent } from './components/widgets/slider-widget/slider
     MatSortModule,
     MatPaginatorModule,
 
-   AngularFireDatabaseModule,
-   AngularFireAuthModule,
-   AngularFireMessagingModule,
-   AngularFireModule.initializeApp(environment.firebase),
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
+    AngularFireMessagingModule,
+    AngularFireModule.initializeApp(environment.firebase),
   ],
   providers: [PushService, AsyncPipe],
   bootstrap: [AppComponent]

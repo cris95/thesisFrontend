@@ -145,8 +145,7 @@ export class DashboardComponent implements OnInit {
           alerts.forEach(a => {
             this.elapsed.set(a, a.refreshTime);
           });
-          console.log(this.elapsed);
-          this.getData();
+          this.getWidgetsData();
         });
       });
     });
@@ -193,17 +192,10 @@ export class DashboardComponent implements OnInit {
     this.appComponent.dataService.saveDashboard(dashboard).subscribe(data => {
       this.setEditable(false);
       this.ngOnInit();
-      // this.dashboard = data;
-      // this.dashboardName = this.dashboard.name;
-      // this.appComponent.title = this.dashboard.name;
-
-      // this.elapsed.forEach((time, w) => {
-      //   this.elapsed.set(w, w.refreshTime);
-      // });
     });
   }
 
-  getData() {
+  getWidgetsData() {
     if (this.dataSubscription !== undefined) {
       this.dataSubscription.unsubscribe();
     }
@@ -220,13 +212,13 @@ export class DashboardComponent implements OnInit {
     });
 
     if (templatesId.length > 0) {
-      this.appComponent.dataService.getData(templatesId).subscribe(data => {
+      this.appComponent.dataService.getWidgetsData(templatesId).subscribe(data => {
         this.retrievedData.next(data);
       });
     }
 
     this.dataSubscription = interval(1000).subscribe(() => {
-      this.getData();
+      this.getWidgetsData();
     });
   }
 

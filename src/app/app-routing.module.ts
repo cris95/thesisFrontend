@@ -3,12 +3,15 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { DashboardsComponent } from './components/dashboards/dashboards.component';
 import { DashboardComponent } from './components/dashboards/dashboard/dashboard.component';
+import { EditWidgetsComponent } from './components/edit-widgets/edit-widgets.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'dashboards', component: DashboardsComponent },
   { path: 'dashboard', component: DashboardComponent },
+  { path: 'widgets', component: EditWidgetsComponent },
   { path: '', component: LoginComponent },
+  { path: '*', component: LoginComponent },
 ];
 
 @NgModule({
