@@ -12,7 +12,7 @@ import { AngularFireMessagingModule } from '@angular/fire/messaging';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire';
-import { PushService } from './push.service';
+import { PushService } from './services/push.service';
 import { environment } from '../environments/environment';
 import { AsyncPipe } from '../../node_modules/@angular/common';
 
@@ -52,6 +52,7 @@ import { SwitchWidgetComponent } from './components/widgets/switch-widget/switch
 import { ChartWidgetComponent } from './components/widgets/chart-widget/chart-widget.component';
 import { SliderWidgetComponent } from './components/widgets/slider-widget/slider-widget.component';
 import { EditWidgetsComponent } from './components/edit-widgets/edit-widgets.component';
+import { EditWidgetComponent } from './components/edit-widgets/edit-widget/edit-widget.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { EditWidgetsComponent } from './components/edit-widgets/edit-widgets.com
     SwitchWidgetComponent,
     SliderWidgetComponent,
     EditWidgetsComponent,
+    EditWidgetComponent,
   ],
   imports: [
     BrowserModule,

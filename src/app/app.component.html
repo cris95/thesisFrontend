@@ -1,4 +1,4 @@
-<ng-container *ngIf="this.router.url !== '/login'">
+<ng-container *ngIf="this.router.url.includes('dashboard') || this.router.url.includes('widget')">
   <mat-toolbar color="primary">
     <button mat-icon-button [matMenuTriggerFor]="navMenu">
       <mat-icon>menu</mat-icon>

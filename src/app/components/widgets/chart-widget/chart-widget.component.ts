@@ -15,6 +15,7 @@ export class ChartWidgetComponent implements OnInit {
   chartWidget: any;
   dataIsAvailable = false;
   subscription: Subscription;
+  stompClient: any;
 
   @ViewChild('chart', { static: true }) el: ElementRef;
 
@@ -38,7 +39,7 @@ export class ChartWidgetComponent implements OnInit {
       valueOfData.y.push(el);
     });
 
-    valueOfData.type = this.chartWidget.type;
+    valueOfData.type = this.chartWidget.chartType;
     data.push(valueOfData);
 
     const layout = {
@@ -56,12 +57,35 @@ export class ChartWidgetComponent implements OnInit {
   }
 
   getChartWidget() {
-    this.appComponent.dataService.getChartWidget(this.widget.template.id).subscribe(chart => {
+    this.appComponent.dataService.getWidget(this.widget.template.id, this.widget.template.type).subscribe(chart => {
       this.chartWidget = chart;
       this.dataIsAvailable = true;
 
-      this.dashboardComponent.isDataRetrieved().subscribe(data => {
-        const map = new Map(Object.entries(data));
+      console.log(this.chartWidget);
+
+      if (this.chartWidget.refreshTime === 0) {
+        this.drawChart([10, 20, 30, 40, 50]);
+        this.connect();
+      } else {
+        this.dashboardComponent.isDataRetrieved().subscribe(data => {
+          const map = new Map(Object.entries(data));
+          const chartData = map.get(this.chartWidget.template.id.toString());
+          if (chartData !== undefined) {
+            this.drawChart(chartData);
+          }
+        });
+      }
+    });
+  }
+
+  connect() {
+    this.stompClient = this.appComponent.webSocketService.connect();
+
+    this.stompClient.connect({}, frame => {
+
+      this.stompClient.subscribe('/message', message => {
+        console.log(message);
+        const map = new Map(Object.entries(JSON.parse(message.body)));
         const chartData = map.get(this.chartWidget.template.id.toString());
         if (chartData !== undefined) {
           this.drawChart(chartData);
@@ -69,4 +93,5 @@ export class ChartWidgetComponent implements OnInit {
       });
     });
   }
+
 }

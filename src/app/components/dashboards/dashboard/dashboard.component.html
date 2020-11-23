@@ -12,7 +12,7 @@
   <gridster *ngIf="dataIsAvailable" [options]="options">
     <gridster-item [item]="widget" *ngFor="let widget of dashboard.widgets">
       <div *ngIf="!appComponent.readOnly" class="row">
-        <div class="col-4 offset-4">
+        <div class="mx-auto">
           <button mat-mini-fab color="warn" (mousedown)="deleteWidget($event, widget)"
             (touchstart)="deleteWidget($event, widget)" class="delete-button">
             <mat-icon>delete</mat-icon>
@@ -31,6 +31,31 @@
   <button *ngIf="!appComponent.readOnly" 
     mat-flat-button color="primary" (click)="saveDashboard(dashboard)" >save</button>
 </div>
+<div>
 <mat-menu #widgetsMenu="matMenu">
-  <button mat-menu-item *ngFor="let w of widgetTemplates" (click)="addWidget(w)">{{w.description}}</button>
+  <button mat-menu-item [matMenuTriggerFor]="alerts">Alerts</button>
+  <button mat-menu-item [matMenuTriggerFor]="buttons">Buttons</button>
+  <button mat-menu-item [matMenuTriggerFor]="charts">Charts</button>
+  <button mat-menu-item [matMenuTriggerFor]="sliders">Sliders</button>
+  <button mat-menu-item [matMenuTriggerFor]="switches">Switches</button>
+</mat-menu>
+
+<mat-menu #alerts="matMenu">
+  <button mat-menu-item *ngFor="let w of templates.get('alert')" (click)="addWidget(w)">{{w.description}}</button>
+</mat-menu>
+
+<mat-menu #buttons="matMenu">
+  <button mat-menu-item *ngFor="let w of templates.get('button')" (click)="addWidget(w)">{{w.description}}</button>
+</mat-menu>
+
+<mat-menu #charts="matMenu">
+  <button mat-menu-item *ngFor="let w of templates.get('chart')" (click)="addWidget(w)">{{w.description}}</button>
+</mat-menu>
+
+<mat-menu #sliders="matMenu">
+  <button   mat-menu-item *ngFor="let w of templates.get('slider')" (click)="addWidget(w)">{{w.description}}</button >
+</mat-menu>
+
+<mat-menu #switches="matMenu">
+  <button mat-menu-item *ngFor="let w of templates.get('switch')" (click)="addWidget(w)">{{w.description}}</button>
 </mat-menu>

@@ -15,7 +15,7 @@ export class DashboardComponent implements OnInit {
   options: GridsterConfig;
   dashboard: any;
   dashboardName: string;
-  widgetTemplates: any[];
+  templates: Map<string, any[]>;
 
   alertWidgets: any[];
   chartWidgets: any[];
@@ -100,14 +100,16 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.subscription = this.appComponent.buttonClicked().subscribe((value) => {
-      if (value === 'editDashboard') {
-        this.setEditable(true);
-      }
-      else if (value === 'deleteDashboard') {
-        this.deleteDashboard(this.dashboard);
-      }
-    });
+    if (this.subscription === undefined) {
+      this.subscription = this.appComponent.buttonClicked().subscribe((value) => {
+        if (value === 'editDashboard') {
+          this.setEditable(true);
+        }
+        else if (value === 'deleteDashboard') {
+          this.deleteDashboard(this.dashboard);
+        }
+      });
+    }
 
     this.getDashboard();
 
@@ -123,37 +125,32 @@ export class DashboardComponent implements OnInit {
       this.appComponent.title = this.dashboard.name;
       this.dataIsAvailable = true;
 
-      const alertsId = [];
-      const chartsId = [];
-
+      const ids = [];
       this.dashboard.widgets.forEach(w => {
-        if (w.template.type === 'alert') {
-          alertsId.push(w.template.id);
-        }
-        else if (w.template.type === 'chart') {
-          chartsId.push(w.template.id);
+        if (w.template.type === 'alert' || w.template.type === 'chart') {
+          ids.push(w.template.id);
         }
       });
-
       this.elapsed = new Map();
-
-      this.appComponent.dataService.getChartWidgets(chartsId).subscribe(charts => {
-        charts.forEach(c => {
-          this.elapsed.set(c, c.refreshTime);
+      this.appComponent.dataService.getWidgets(ids).subscribe(widgets => {
+        widgets.forEach(w => {
+          this.elapsed.set(w, w.refreshTime);
         });
-        this.appComponent.dataService.getAlertWidgets(alertsId).subscribe(alerts => {
-          alerts.forEach(a => {
-            this.elapsed.set(a, a.refreshTime);
-          });
-          this.getWidgetsData();
-        });
+        this.getWidgetsData();
       });
     });
   }
 
   getAllWidgetTemplates() {
     this.appComponent.dataService.getAllWidgetTemplates().subscribe(data => {
-      this.widgetTemplates = data;
+      this.templates = new Map();
+      data.forEach(template => {
+        if (this.templates.get(template.type) === undefined) {
+          this.templates.set(template.type, []);
+        }
+        this.templates.get(template.type).push(template);
+      });
+      this.dataIsAvailable = true;
     });
   }
 

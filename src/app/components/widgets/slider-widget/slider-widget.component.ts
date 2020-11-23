@@ -20,7 +20,7 @@ export class SliderWidgetComponent implements OnInit {
   }
 
   getSliderWidget() {
-    this.appComponent.dataService.getSliderWidget(this.widget.template.id).subscribe(data => {
+    this.appComponent.dataService.getWidget(this.widget.template.id, this.widget.template.type).subscribe(data => {
       this.sliderWidget = data;
       this.dataIsAvailable = true;
     });

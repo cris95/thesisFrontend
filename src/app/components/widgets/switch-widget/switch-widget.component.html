@@ -1,5 +1,5 @@
 <div *ngIf="dataIsAvailable" class="container">
-    <p>{{ switchWidget.label | uppercase}}</p>
+    <p>{{ switchWidget.template.label | uppercase}}</p>
     <div class="switch">
         <mat-slide-toggle [(ngModel)]="isChecked" (change)="switch()"></mat-slide-toggle>
     </div>

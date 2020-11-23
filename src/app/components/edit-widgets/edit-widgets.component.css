@@ -1,7 +1,9 @@
-.mat-radio-button ~ .mat-radio-button {
-  margin-left: 16px;
+.mat-row:hover {
+  background-color: lightgray;
+  cursor: pointer;
 }
 
-.container {
+.create-button{
   margin-top: 20px;
+  margin-bottom: 20px;
 }

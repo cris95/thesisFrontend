@@ -46,6 +46,35 @@ export class DataService {
     return this.http.get<any>(API_URL + 'deleteDashboard', { params });
   }
 
+  deleteWidget(id: number): Observable<any> {
+    const params = new HttpParams().set('templateId', id + '');
+    return this.http.get<any>(API_URL + 'deleteWidget', { params });
+  }
+
+  saveWidget(widget: any){
+    return this.http.post<any>(API_URL + 'saveWidget', widget, httpOptions);
+  }
+
+  saveAlertWidget(widget: any): Observable<any> {
+    return this.http.post<any>(API_URL + 'saveAlertWidget', widget, httpOptions);
+  }
+
+  saveButtonWidget(widget: any): Observable<any> {
+    return this.http.post<any>(API_URL + 'saveButtonWidget', widget, httpOptions);
+  }
+
+  saveChartWidget(widget: any): Observable<any> {
+    return this.http.post<any>(API_URL + 'saveChartWidget', widget, httpOptions);
+  }
+
+  saveSliderWidget(widget: any): Observable<any> {
+    return this.http.post<any>(API_URL + 'saveSliderWidget', widget, httpOptions);
+  }
+
+  saveSwitchWidget(widget: any): Observable<any> {
+    return this.http.post<any>(API_URL + 'saveSwitchWidget', widget, httpOptions);
+  }
+
   getAllWidgetTemplates(): Observable<any[]> {
     return this.http.get<any[]>(API_URL + 'getAllWidgetTemplates');
   }
@@ -54,54 +83,19 @@ export class DataService {
     return this.http.get<any[]>(API_URL + 'getAllEditWidgetMetadata');
   }
 
-  getAlerts(alertsId: number[]): Observable<any[]> {
-    const params = new HttpParams().set('ids', JSON.stringify(alertsId));
-    return this.http.get<any[]>(API_URL + 'getAlerts', { params });
-  }
-
-  getAlertWidgets(templatesId: number[]): Observable<any[]> {
-    const params = new HttpParams().set('ids', templatesId.toString());
-    return this.http.get<any[]>(API_URL + 'getAlertWidgets', { params });
-  }
-
-  getChartWidgets(templatesId: number[]): Observable<any[]> {
-    const params = new HttpParams().set('ids', templatesId.toString());
-    return this.http.get<any[]>(API_URL + 'getChartWidgets', { params });
-  }
-
   getWidgetsData(templatesId: number[]): Observable<any[]> {
     const params = new HttpParams().set('ids', templatesId.toString());
     return this.http.get<any[]>(API_URL + 'getWidgetsData', { params });
   }
 
-  getTemperature(id: number): Observable<any> {
-    const params = new HttpParams().set('id', id + '');
-    return this.http.get<any>(API_URL + 'getTemperature', { params });
+  getWidgets(ids: number[]) {
+    const params = new HttpParams().set('ids', ids + '');
+    return this.http.get<any>(API_URL + 'getWidgets', { params });
   }
 
-  getAlertWidget(templateId: number) {
-    const params = new HttpParams().set('templateId', templateId + '');
-    return this.http.get<any>(API_URL + 'getAlertWidget', { params });
-  }
-
-  getButtonWidget(templateId: number) {
-    const params = new HttpParams().set('templateId', templateId + '');
-    return this.http.get<any>(API_URL + 'getButtonWidget', { params });
-  }
-
-  getChartWidget(templateId: number) {
-    const params = new HttpParams().set('templateId', templateId + '');
-    return this.http.get<any>(API_URL + 'getChartWidget', { params });
-  }
-
-  getSliderWidget(templateId: number){
-    const params = new HttpParams().set('templateId', templateId + '');
-    return this.http.get<any>(API_URL + 'getSliderWidget', { params });
-  }
-
-  getSwitchWidget(templateId: number) {
-    const params = new HttpParams().set('templateId', templateId + '');
-    return this.http.get<any>(API_URL + 'getSwitchWidget', { params });
+  getWidget(templateId: number, type: string) {
+    const params = new HttpParams().set('templateId', templateId + '').set('type', type);
+    return this.http.get<any>(API_URL + 'getWidget', { params });
   }
 
   switch(id: number, value: boolean): Observable<any> {

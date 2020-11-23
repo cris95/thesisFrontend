@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { DataService } from './data.service';
+import { DataService } from './services/data.service';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { PushService } from './push.service';
-import { WebSocketService } from './web-socket.service';
+import { PushService } from './services/push.service';
+import { WebSocketService } from './services/web-socket.service';
 // import { PushService } from './push.service';
 
 @Component({

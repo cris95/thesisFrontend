@@ -16,7 +16,7 @@ export class SwitchWidgetComponent implements OnInit {
   constructor(public appComponent: AppComponent) { }
 
   ngOnInit(): void {
-    this.appComponent.dataService.getSwitchWidget(this.widget.template.id).subscribe(data => {
+    this.appComponent.dataService.getWidget(this.widget.template.id, this.widget.template.type).subscribe(data => {
       this.dataIsAvailable = true;
       this.switchWidget = data;
     });

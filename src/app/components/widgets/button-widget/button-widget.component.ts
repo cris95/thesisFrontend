@@ -25,7 +25,7 @@ export class ButtonWidgetComponent implements OnInit {
   }
 
   getButtonWidget(){
-    this.appComponent.dataService.getButtonWidget(this.widget.template.id).subscribe(data => {
+    this.appComponent.dataService.getWidget(this.widget.template.id, this.widget.template.type).subscribe(data => {
       this.buttonWidget = data;
       this.dataIsAvailable = true;
     });

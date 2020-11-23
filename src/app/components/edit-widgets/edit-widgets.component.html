@@ -1,62 +1,16 @@
-<div class="container">
-    <div class="row">
-        <div class="mx-auto">
-            <mat-radio-group [(ngModel)]="type">
-                <mat-radio-button *ngFor="let t of types" [value]="t">{{t | titlecase}}</mat-radio-button>
-            </mat-radio-group>
-        </div>
-    </div>
-    <div *ngIf="type !== undefined" class="container">
-        <div class="row">
-            <mat-card class="mx-auto">
-                <div class="row">
-                    <mat-card-header class="mx-auto">
-                        <mat-card-title>Create new {{type | titlecase}} Widget</mat-card-title>
-                    </mat-card-header>
-                </div>
-                <mat-card-content>
-                    <form #editForm="ngForm">
-                        <div class="row" *ngFor="let m of metadata.get(type)">
-                            <mat-form-field *ngIf="m === 'label'" class="col-10 mx-auto">
-                                <input matInput placeholder="Label" name="label" ngModel />
-                            </mat-form-field>
-                            <mat-form-field *ngIf="m === 'url'" class="col-10 mx-auto">
-                                <input *ngIf="m === 'url'" matInput placeholder="Url" name="url" ngModel />
-                            </mat-form-field>
-                            <mat-form-field *ngIf="m === 'high'" class="col-10 mx-auto">
-                                <input matInput type="number" placeholder="high" name="high" ngModel />
-                            </mat-form-field>
-                            <mat-form-field *ngIf="m === 'low'" class="col-10 mx-auto">
-                                <input matInput type="number" placeholder="low" name="low" ngModel />
-                            </mat-form-field>
-                            <mat-form-field *ngIf="m === 'min'" class="col-10 mx-auto">
-                                <input matInput type="number" placeholder="min" name="min" ngModel />
-                            </mat-form-field>
-                            <mat-form-field *ngIf="m === 'max'" class="col-10 mx-auto">
-                                <input matInput type="number" placeholder="max" name="max" ngModel />
-                            </mat-form-field>
-                            <mat-form-field *ngIf="m === 'refresh_time'" class="col-10 mx-auto">
-                                <input matInput type="number" placeholder="Refresh Time" 
-                                    min="1000" step="1000" name="refresh_time" ngModel />
-                            </mat-form-field>
-                            <!-- <mat-form-field *ngIf="m === 'data_mode'" class="col-10 mx-auto">
-                                <mat-radio-group name="data_mode" ngModel>
-                                    <mat-radio-button value="local">Local</mat-radio-button>
-                                    <mat-radio-button value="remote">Remote</mat-radio-button>
-                                </mat-radio-group>
-                            </mat-form-field>
-                            <mat-form-field *ngIf="m === 'type'" class="col-10 mx-auto">
-                                <mat-radio-group name="type" ngModel>
-                                    <mat-radio-button value="line">Line</mat-radio-button>
-                                    <mat-radio-button value="bar">Bar</mat-radio-button>
-                                </mat-radio-group>
-                            </mat-form-field> -->
-                        </div>
-                        {{editForm.value | json}}
-                    </form>
-                </mat-card-content>
-            </mat-card>
-        </div>
-    </div>
+<div class="row">
+    <button mat-flat-button color="primary" class="col-2 mx-auto create-button" (click)="createWidget()">Add new widget</button>
 </div>
+<mat-table [dataSource]="widgetTemplatesDataSource">
+    <ng-container matColumnDef="Description">
+        <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+        <mat-cell *matCellDef="let element" class="row-cell"> {{ element.description }} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="Type" >
+        <mat-header-cell *matHeaderCellDef > Type </mat-header-cell>
+        <mat-cell *matCellDef="let element" class="row-cell"> {{ element.type }} </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedWidgets"></mat-header-row>
+    <mat-row (click)="openWidget(row)" *matRowDef="let row; columns: displayedWidgets"></mat-row>
+</mat-table>
 

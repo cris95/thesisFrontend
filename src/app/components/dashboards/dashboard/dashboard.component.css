@@ -25,3 +25,7 @@ gridster, gridster-item {
   background-color: #003f5c;
 }
 
+button:focus {
+  border: none !important;
+  outline: none !important;
+}

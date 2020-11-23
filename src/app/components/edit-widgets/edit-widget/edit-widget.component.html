@@ -1,0 +1,74 @@
+<div class="container" *ngIf="!edit">
+    <div class="row">
+        <div class="mx-auto">
+            <mat-radio-group [(ngModel)]="widget.template.type">
+                <mat-radio-button *ngFor="let t of types" [value]="t">{{t | titlecase}}</mat-radio-button>
+            </mat-radio-group>
+        </div>
+    </div>
+</div>
+
+<div class="container" *ngIf="dataIsAvailable">
+    <div class="row">
+        <mat-card class="col-5 mx-auto">
+            <div class="row">
+                <mat-card-header class="mx-auto">
+                    <mat-card-title *ngIf="edit">Edit {{widget.template.type | titlecase}} Widget</mat-card-title>
+                    <mat-card-title *ngIf="!edit">Create {{widget.template.type | titlecase}} Widget</mat-card-title>
+                </mat-card-header>
+            </div>
+            <mat-card-content>
+                <form>
+                    <div class="row" *ngFor="let m of metadata.get(widget.template.type)">
+                        <mat-form-field *ngIf="m === 'description'" class="col-10 mx-auto">
+                            <input matInput placeholder="Description" name="description" [(ngModel)]="widget.template.description"/>
+                        </mat-form-field>
+                        <mat-form-field *ngIf="m === 'rows'" class="col-10 mx-auto">
+                            <input matInput type="number" placeholder="Rows" name="rows" min="1" [(ngModel)]="widget.template.rows"/>
+                        </mat-form-field>
+                        <mat-form-field *ngIf="m === 'cols'" class="col-10 mx-auto">
+                            <input matInput type="number" placeholder="Cols" name="cols" min="1" [(ngModel)]="widget.template.cols"/>
+                        </mat-form-field>
+                        <mat-form-field *ngIf="m === 'label'" class="col-10 mx-auto">
+                            <input matInput placeholder="Label" name="label" [(ngModel)]="widget.template.label"/>
+                        </mat-form-field>
+                        <mat-form-field *ngIf="m === 'url'" class="col-10 mx-auto">
+                            <input *ngIf="m === 'url'" matInput placeholder="Url" name="url" [(ngModel)]="widget.template.url"/>
+                        </mat-form-field>
+                        <mat-form-field *ngIf="m === 'high'" class="col-10 mx-auto">
+                            <input matInput type="number" placeholder="high" name="high" [(ngModel)]="widget.high"/>
+                        </mat-form-field>
+                        <mat-form-field *ngIf="m === 'low'" class="col-10 mx-auto">
+                            <input matInput type="number" placeholder="low" name="low" [(ngModel)]="widget.low"/>
+                        </mat-form-field>
+                        <mat-form-field *ngIf="m === 'min'" class="col-10 mx-auto">
+                            <input matInput type="number" placeholder="min" name="min" min="1" [(ngModel)]="widget.min"/>
+                        </mat-form-field>
+                        <mat-form-field *ngIf="m === 'max'" class="col-10 mx-auto">
+                            <input matInput type="number" placeholder="max" name="max" min="2" [(ngModel)]="widget.max"/>
+                        </mat-form-field>
+                        <mat-form-field *ngIf="m === 'refresh_time'" class="col-10 mx-auto">
+                            <input matInput type="number" placeholder="Refresh Time" 
+                                min="1000" step="1000" name="refreshTime" [(ngModel)]="widget.refreshTime"/>
+                        </mat-form-field>
+                        <mat-radio-group *ngIf="m === 'data_mode'" class="col-10 mx-auto" name="dataMode" [(ngModel)]="widget.template.dataMode">
+                            <mat-radio-button value="local">Local</mat-radio-button>
+                            <mat-radio-button value="remote">Remote</mat-radio-button>
+                        </mat-radio-group>
+                        <mat-radio-group *ngIf="m === 'type'" class="col-10 mx-auto" name="chartType" [(ngModel)]="widget.chartType">
+                            <mat-radio-button value="line">Line</mat-radio-button>
+                            <mat-radio-button value="bar">Bar</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                    <div class="row buttons-container" *ngIf="edit">
+                        <button mat-flat-button color="primary" class="col-5 mx-auto" (click)="saveWidget()">Save</button>
+                        <button mat-flat-button color="warn" class="col-5 mx-auto" (click)="deleteWidget()">Delete</button>
+                    </div>
+                    <div class="row buttons-container" *ngIf="!edit">
+                        <button mat-flat-button color="primary" class="col-9 mx-auto" (click)="saveWidget()">Save</button>
+                    </div>
+                </form>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

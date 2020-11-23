@@ -1,7 +1,7 @@
 <div *ngIf="dataIsAvailable" class="container">
-  <p>{{ sliderWidget.label | uppercase}}</p>
+  <p>{{ sliderWidget.template.label | uppercase}}</p>
   <div class="row">
-    <mat-slider class="slider mx-auto" 
+    <mat-slider class="slider mx-auto" thumbLabel 
     [min]="sliderWidget.min" [max]="sliderWidget.max" [(ngModel)]="sliderWidget.value"
     (change)="change($event)"></mat-slider>
   </div>  

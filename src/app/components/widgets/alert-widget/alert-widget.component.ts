@@ -19,40 +19,31 @@ export class AlertWidgetComponent implements OnInit {
   subscription: Subscription;
   dataIsAvailable = false;
 
+  stompClient: any;
+
   constructor(public appComponent: AppComponent, public dashboardComponent: DashboardComponent) {
-
-    this.connect();
-
   }
 
   ngOnInit(): void {
-    this.appComponent.dataService.getAlertWidget(this.widget.template.id).subscribe(alert => {
-      this.alertWidget = alert;
-      this.dashboardComponent.isDataRetrieved().subscribe(data => {
-        const map = new Map(Object.entries(data));
-        const alertData = map.get(this.alertWidget.template.id.toString());
-        if (alertData !== undefined) {
-          this.setValue(alertData);
-        }
-      });
-    });
 
-    this.appComponent.pushService.receiveMessage();
+    this.getAlertWidget();
 
-    this.appComponent.pushService.messageReceived().subscribe(payload => {
-      if (payload !== null) {
-        this.value = payload.data.value;
-        this.threshold = 'critical';
-      }
-    });
+    // this.appComponent.pushService.receiveMessage();
+
+    // this.appComponent.pushService.messageReceived().subscribe(payload => {
+    //   if (payload !== null) {
+    //     this.value = payload.data.value;
+    //     this.threshold = 'critical';
+    //   }
+    // });
   }
 
   connect() {
-    const stompClient = this.appComponent.webSocketService.connect();
+    this.stompClient = this.appComponent.webSocketService.connect();
 
-    stompClient.connect({}, frame => {
+    this.stompClient.connect({}, frame => {
 
-      stompClient.subscribe('/message', message => {
+      this.stompClient.subscribe('/message', message => {
         const map = new Map(Object.entries(JSON.parse(message.body)));
         const alertData = map.get(this.alertWidget.template.id.toString());
         if (alertData !== undefined) {
@@ -60,6 +51,12 @@ export class AlertWidgetComponent implements OnInit {
         }
       });
     });
+  }
+
+  disconnect() {
+    if (this.stompClient !== undefined) {
+      this.stompClient.disconnect();
+    }
   }
 
   setValue(value: number) {
@@ -74,6 +71,31 @@ export class AlertWidgetComponent implements OnInit {
     else if (this.value > this.alertWidget.high) {
       this.threshold = 'critical';
     }
+  }
+
+  getAlertWidget() {
+    this.appComponent.dataService.getWidget(this.widget.template.id, this.widget.template.type).subscribe(alert => {
+      this.alertWidget = alert;
+      console.log(this.alertWidget);
+      this.dataIsAvailable = true;
+
+      if (this.alertWidget.refreshTime === 0) {
+        this.setValue(10);
+        this.connect();
+      } else {
+        this.dashboardComponent.isDataRetrieved().subscribe(data => {
+          const map = new Map(Object.entries(data));
+          const alertData = map.get(this.alertWidget.template.id.toString());
+          if (alertData !== undefined) {
+            this.setValue(alertData);
+          }
+        });
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.disconnect();
   }
 
 }
